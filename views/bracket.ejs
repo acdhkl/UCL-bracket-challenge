@@ -1,0 +1,148 @@
+<%- include("./partials/header.ejs") %>
+<% var helpers = include("../helpers.js"); %>
+
+<h1 class="text-center">2020 UCL Bracket Challenge</h1>
+<% predictions.forEach(function(user){ %>
+    <button><%= user.name %></button>
+
+<% }) %> 
+<h3 class="text-center bracketTitle">Correct Page</h3>
+<div class="brackets" id="brackets">
+    <div class="group5" id="b0">
+        <div class="r1">
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">1</span>
+                    <span class="teama">Real Madrid</span>
+                    <span class="teamb">Manchester City</span></div>
+            </div>
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">2</span>
+                    <span class="teama">Juventus</span>
+                    <span class="teamb">Lyon</span></div>
+            </div>
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">3</span>
+                    <span class="teama">Napoli</span>
+                    <span class="teamb">Barcelona</span></div>
+            </div>
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">4</span>
+                    <span class="teama">Chelsea</span>
+                    <span class="teamb">Bayern Munich</span></div>
+            </div>
+        </div>
+        <div class="r2">
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">5</span>
+                    <span class="teama prediction"></span>
+                    <span class="teamb prediction"></span></div>
+            </div>
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">6</span>
+                    <span class="teama prediction"></span>
+                    <span class="teamb prediction"></span></div>
+            </div>
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">7</span>
+                    <span class="teama">RB Leipzig</span>
+                    <span class="teamb">Atletico Madrid</span></div>
+            </div>
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">8</span>
+                    <span class="teama">Atalanta</span>
+                    <span class="teamb">PSG</span></div>
+            </div>
+        </div>
+        <div class="r3">
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">9</span>
+                    <span class="teama prediction"></span>
+                    <span class="teamb prediction"></span></div>
+            </div>
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">10</span>
+                    <span class="teama prediction"></span>
+                    <span class="teamb prediction"></span></div>
+            </div>
+        </div>
+        <div class="r4">
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">11</span>
+                    <span class="teama prediction"></span>
+                    <span class="teamb prediction"></span></div>
+            </div>
+        </div>
+        <div class="r5">
+            <div class="final">
+                <div class="bracketbox">
+                    <span class="teamc prediction"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    const correctBracket = [
+    "Real Madrid",
+    "Juventus",
+    "Barcelona", 
+    "Bayern Munich", 
+    "Juventus",
+    "Bayern Munich", 
+    "Atletico Madrid", 
+    "PSG", 
+    "Bayern Munich", 
+    "Atletico Madrid", 
+    "Bayern Munich"
+];
+
+const correctBracket2 = [
+    "Real Madrid",
+    "Juventus",
+    "Barcelona", 
+    "Bayern Munich", 
+    "Juventus",
+    "Bayern Munich", 
+    "Atletico Madrid", 
+    "PSG", 
+    "Bayern Munich", 
+    "Atletico Madrid", 
+    "Atletico Madrid"
+];
+    const predictionSpots = $('.prediction');
+    for (let i = 0; i < predictionSpots.length; i++) {
+        predictionSpots[i].innerText = correctBracket[i];
+    }
+
+    $(document).ready(function(){
+$("button").click(function(){
+    for (let i = 0; i < predictionSpots.length; i++) {
+        predictionSpots[i].innerText = correctBracket2[i];
+    }
+})
+});
+</script>
+
+
+
+</body>
+
+</html>
+
+<%- include("./partials/footer.ejs") %>
