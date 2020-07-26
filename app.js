@@ -1,16 +1,49 @@
 var express = require("express"),
-    app = express();
+    app = express(),
+    mongoose = require("mongoose"),
+    Participant = require('./models/participant.js');
+
+    // Participant.create(
+    //     {
+    //         name: "Sample1", 
+    //         predictions: [
+    //             "Manchester City",
+    //             "Juventus",
+    //             "Barcelona",
+    //             "Bayern Munich",
+    //             "Manchester City",
+    //             "Barcelona",
+    //             "Atletico Madrid",
+    //             "PSG",
+    //             "Barcelona",
+    //             "Atletico Madrid",
+    //             "Atletico Madrid"
+    //         ],
+    //         points: undefined
+    //     }
+    // )
 
 var helpers = require("./helpers.js");
-
-
+mongoose.connect("mongodb://localhost/bracket",
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
 app.use(express.static(__dirname + "/public"));
+app.set("view engine", "ejs");
 
+// ROOT ROUTE
 app.get("/", function (req, res) {
-    var participants = helpers.participants;
-    res.render("bracket.ejs", {
-        predictions: participants,
-        correctBracket: helpers.correctBracket
+    Participant.find({}, function(err, allParticipants){
+        if(err) {
+            console.log(err);
+        } else {
+            console.log(allParticipants);
+            res.render("bracket", {
+                predictions: helpers.calculatePoints(allParticipants),
+                correctBracket: helpers.correctBracket
+            });
+        }
     });
 });
 
