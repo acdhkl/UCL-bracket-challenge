@@ -1,19 +1,10 @@
-html,
-    body,
-    .brackets {
+/* BRACKET */
+html, body, .brackets {
+    z-index: 0;
+    position: relative;
         width: 100%;
         min-height: 100%;
-        font-family: "Arial", sans-serif;
-    }
-
-    .metroBtn {
-        background-color: #2E7BCC;
-        color: #fff;
-        font-size: 1.1em;
-        padding: 10px;
-        display: inline-block;
-        margin-bottom: 30px;
-        cursor: pointer;
+        font-weight: 500;
     }
 
     .brackets>div {
@@ -43,8 +34,8 @@ html,
         position: absolute;
         top: 25%;
         left: 25%;
-        font-size: 0.8em;
-        color: #BBB;
+
+        color: blue;
     }
 
     .brackets div.bracketbox>span {
@@ -118,7 +109,7 @@ html,
 
     .brackets>div>.r5>div {
         margin: 460px 0 0 0;
-        height: 900px;
+        height: 500px;
     }
 
     .brackets>div>.r6>div {
@@ -144,4 +135,64 @@ html,
 
     .brackets>div>div>div:last-of-type {
         margin-bottom: 0px;
+    }
+    
+    #bracketTitle {
+        color: royalblue;
+    }
+    .correct {
+        background-color: lightgreen;
+        text-decoration: none;
+    }
+    .incorrect {
+        background-color: rgb(248, 54, 6);
+        text-decoration: line-through;
+    }
+    .prediction {
+        font-weight: 700;
+        font-size: 16px !important;
+    }
+
+    /* SCOREBOARD */
+
+    .ptable table{
+        position: fixed;
+        top: 0px;
+        right: 10px;
+        z-index: 1;
+        margin: 30px auto;
+        border-collapse: collapse;
+        background-color: black;
+    }
+    
+    th, td {
+        padding: 8px;
+    }
+    
+    th{
+        background-color: black;
+        color: #ffe221;
+    }
+    
+    .wpos{
+       
+        cursor: pointer;
+    }
+    
+    .wpos td{
+        color: #77ff21;
+    }
+    
+    
+    
+    table .col{
+        border-bottom: 1px solid #FFFFFF;
+    }
+    
+    .wpos:hover{
+        background-color: #77ff21;
+    }
+    
+    .wpos:hover td{
+        color: #000000;
     }

@@ -1,36 +1,59 @@
 <%- include("./partials/header.ejs") %>
-<% var helpers = include("../helpers.js"); %>
 
 <h1 class="text-center">2020 UCL Bracket Challenge</h1>
-<% predictions.forEach(function(user){ %>
-    <button><%= user.name %></button>
+<!-- SCOREBOARD -->
+<div class="ptable">
+    <table>
+        <tr class="col">
+            <th>POS</th>
+            <th>TEAM</th>
+            <th>PTS</th>
+        </tr>
+        <tr class="wpos">
+            <td></td>
+            <td>MASTER</td>
+            <td></td>
+        </tr>
 
-<% }) %> 
-<h3 class="text-center bracketTitle">Correct Page</h3>
+        <% for (i=0; i< predictions.length; i++){%>
+
+        <tr class="wpos" data-predictions='<%= predictions[i].predictions%>' data-name=<%= predictions[i].name %>>
+            <td><%= i+1 %></td>
+            <td><%= predictions[i].name %> </td>
+            <td><%= predictions[i].points %> </td>
+        </tr>
+
+        <% } %>
+    </table>
+</div>
+
+<!-- INITIAL TEAMS FILLED OUT IN BRACKET -->
+<h2 id="bracketTitle" class="text-center">Correct Bracket</h2>
+
 <div class="brackets" id="brackets">
     <div class="group5" id="b0">
         <div class="r1">
             <div>
                 <div class="bracketbox">
-                    <span class="matchup">1</span>
+                    <span class="matchup">1 POINT</span>
                     <span class="teama">Real Madrid</span>
                     <span class="teamb">Manchester City</span></div>
             </div>
             <div>
                 <div class="bracketbox">
-                    <span class="matchup">2</span>
+                    <span class="matchup">1 POINT</span>
                     <span class="teama">Juventus</span>
                     <span class="teamb">Lyon</span></div>
             </div>
             <div>
                 <div class="bracketbox">
-                    <span class="matchup">3</span>
+                    <span class="matchup">1 POINT</span>
                     <span class="teama">Napoli</span>
                     <span class="teamb">Barcelona</span></div>
             </div>
             <div>
                 <div class="bracketbox">
-                    <span class="matchup">4</span>
+                    <span class="matchup">1 POINT</span>
                     <span class="teama">Chelsea</span>
                     <span class="teamb">Bayern Munich</span></div>
             </div>
@@ -38,25 +61,25 @@
         <div class="r2">
             <div>
                 <div class="bracketbox">
-                    <span class="matchup">5</span>
+                    <span class="matchup">2 POINTS</span>
                     <span class="teama prediction"></span>
                     <span class="teamb prediction"></span></div>
             </div>
             <div>
                 <div class="bracketbox">
-                    <span class="matchup">6</span>
+                    <span class="matchup">2 POINTS</span>
                     <span class="teama prediction"></span>
                     <span class="teamb prediction"></span></div>
             </div>
             <div>
                 <div class="bracketbox">
-                    <span class="matchup">7</span>
+                    <span class="matchup">2 POINTS</span>
                     <span class="teama">RB Leipzig</span>
                     <span class="teamb">Atletico Madrid</span></div>
             </div>
             <div>
                 <div class="bracketbox">
-                    <span class="matchup">8</span>
+                    <span class="matchup">2 POINTS</span>
                     <span class="teama">Atalanta</span>
                     <span class="teamb">PSG</span></div>
             </div>
@@ -64,13 +87,13 @@
         <div class="r3">
             <div>
                 <div class="bracketbox">
-                    <span class="matchup">9</span>
+                    <span class="matchup">4 POINTS</span>
                     <span class="teama prediction"></span>
                     <span class="teamb prediction"></span></div>
             </div>
             <div>
                 <div class="bracketbox">
-                    <span class="matchup">10</span>
+                    <span class="matchup">4 POINTS</span>
                     <span class="teama prediction"></span>
                     <span class="teamb prediction"></span></div>
             </div>
@@ -78,7 +101,7 @@
         <div class="r4">
             <div>
                 <div class="bracketbox">
-                    <span class="matchup">11</span>
+                    <span class="matchup">8 POINTS</span>
                     <span class="teama prediction"></span>
                     <span class="teamb prediction"></span></div>
             </div>
@@ -92,57 +115,58 @@
         </div>
     </div>
 </div>
-
-
-
-
+</body>
 
 <script>
     const correctBracket = [
     "Real Madrid",
     "Juventus",
-    "Barcelona", 
-    "Bayern Munich", 
+    "Barcelona",
+    "Bayern Munich",
     "Juventus",
-    "Bayern Munich", 
-    "Atletico Madrid", 
-    "PSG", 
-    "Bayern Munich", 
-    "Atletico Madrid", 
+    "Bayern Munich",
+    "Atletico Madrid",
+    "PSG",
+    "Bayern Munich",
+    "Atletico Madrid",
     "Bayern Munich"
 ];
-
-const correctBracket2 = [
-    "Real Madrid",
-    "Juventus",
-    "Barcelona", 
-    "Bayern Munich", 
-    "Juventus",
-    "Bayern Munich", 
-    "Atletico Madrid", 
-    "PSG", 
-    "Bayern Munich", 
-    "Atletico Madrid", 
-    "Atletico Madrid"
-];
     const predictionSpots = $('.prediction');
+    // SETS CORRECT BRACKET DISPLAY
     for (let i = 0; i < predictionSpots.length; i++) {
         predictionSpots[i].innerText = correctBracket[i];
     }
-
-    $(document).ready(function(){
-$("button").click(function(){
-    for (let i = 0; i < predictionSpots.length; i++) {
-        predictionSpots[i].innerText = correctBracket2[i];
-    }
-})
+    $(document).ready(function () {
+        $(".wpos").on('click', (function () {
+            $('.prediction').removeClass("incorrect correct");
+            if (!$(this).data('predictions')) {
+                for (let i = 0; i < predictionSpots.length; i++) {
+                    predictionSpots[i].innerText = correctBracket[i];
+                }
+                $("#bracketTitle")[0].innerText = "Correct Bracket"
+            } else {
+                var teams = $(this).data('predictions');
+                var teamsArr = teams.split(',');
+                for (let i = 0; i < predictionSpots.length; i++) {
+                    if (teamsArr[i] == correctBracket[i]) {
+                        $('.prediction').eq(i).addClass("correct");
+                        predictionSpots[i].innerText = teamsArr[i];
+                        
+                    } else {
+                        $('.prediction').eq(i).addClass("incorrect");
+                        predictionSpots[i].innerHTML = teamsArr[i];
+                          
+                    }
+                }
+                $("#bracketTitle")[0].innerText = $(this).data('name') + "'s Bracket";
+            }
+        }
+        ));
 });
 </script>
 
-
-
-</body>
-
 </html>
+
+
 
 <%- include("./partials/footer.ejs") %>
