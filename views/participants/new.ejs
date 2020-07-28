@@ -1,0 +1,126 @@
+<link rel="stylesheet" href="/stylesheets/newBracket.css">
+<%- include("../partials/header.ejs") %>
+
+
+<!-- INITIAL TEAMS FILLED OUT IN BRACKET -->
+
+<form action="/participants/new" method="post">
+<div class="brackets " id="brackets">
+    <input type="text" name="name">
+    <div class="group5" id="b0">
+        <div class="r1">
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">1 POINT</span>
+                    <span class="teama"><a class="teamBtn btn btn-primary btn-sm" data-matchuppath="prediction1,prediction5,prediction9,prediction11" >Real Madrid</a></span>
+                    <span class="teamb"><a class="teamBtn btn btn-primary btn-sm" data-matchuppath="prediction1,prediction5,prediction9,prediction11" >Manchester City</a></span></div>
+            </div>
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">1 POINT</span>
+                    <span class="teama"><a class="teamBtn btn btn-primary btn-sm" data-matchuppath="prediction2,prediction5,prediction9,prediction11" >Juventus</a></span>
+                    <span class="teamb"><a class="teamBtn btn btn-primary btn-sm" data-matchuppath="prediction2,prediction5,prediction9,prediction11" >Lyon</a></span></div>
+            </div>
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">1 POINT</span>
+                    <span class="teama"><a class="teamBtn btn btn-primary btn-sm" data-matchuppath="prediction3,prediction6,prediction9,prediction11" >Napoli</a></span>
+                    <span class="teamb"><a class="teamBtn btn btn-primary btn-sm" data-matchuppath="prediction3,prediction6,prediction9,prediction11" >Barcelona</a></span></div>
+            </div>
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">1 POINT</span>
+                    <span class="teama"><a class="teamBtn btn btn-primary btn-sm" data-matchuppath="prediction4,prediction6,prediction9,prediction11" >Chelsea</a></span>
+                    <span class="teamb"><a class="teamBtn btn btn-primary btn-sm" data-matchuppath="prediction4,prediction6,prediction9,prediction11" >Bayern Munich</a></span></div>
+            </div>
+        </div>
+        <div class="r2">
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">2 POINTS</span>
+                    <span class="teama prediction prediction1"></span>
+                    <span class="teamb prediction prediction2"></span></div>
+            </div>
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">2 POINTS</span>
+                    <span class="teama prediction prediction3"></span>
+                    <span class="teamb prediction prediction4"></span></div>
+            </div>
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">2 POINTS</span>
+                    <span class="teama"><a class="teamBtn btn btn-primary btn-sm" data-matchuppath="prediction7,prediction10,prediction11" >RB Leipzig</a></span>
+                    <span class="teamb"><a class="teamBtn btn btn-primary btn-sm" data-matchuppath="prediction7,prediction10,prediction11" >Atletico Madrid</a></span></div>
+            </div>
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">2 POINTS</span>
+                    <span class="teama"><a class="teamBtn btn btn-primary btn-sm" data-matchuppath="prediction8,prediction10,prediction11" >Atalanta</a></span>
+                    <span class="teamb"><a class="teamBtn btn btn-primary btn-sm" data-matchuppath="prediction8,prediction10,prediction11" >PSG</a></span></div>
+            </div>
+        </div>
+        <div class="r3">
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">4 POINTS</span>
+                    <span class="teama prediction prediction5"></span>
+                    <span class="teamb prediction prediction6"></span></div>
+            </div>
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">4 POINTS</span>
+                    <span class="teama prediction prediction7"></span>
+                    <span class="teamb prediction prediction8"></span></div>
+            </div>
+        </div>
+        <div class="r4">
+            <div>
+                <div class="bracketbox">
+                    <span class="matchup">8 POINTS</span>
+                    <span class="teama prediction prediction9"></span>
+                    <span class="teamb prediction prediction10"></span></div>
+            </div>
+        </div>
+        <div class="r5">
+            <div class="final">
+                <div class="bracketbox">
+                    <span class="teamc prediction prediction11"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+<button type="submit" class="btn btn-primary btn-block">Create</button>
+</div>
+
+</form>
+
+
+<script>
+    
+ $(document).ready(function () {
+        $("span").on('click',".teamBtn", (function () {
+            var goesTo = $(this).data('matchuppath').split(',');
+            console.log(goesTo)
+            var nextMatchupPath;
+            if (goesTo.length == 0) {
+                nextMatchupPath="";
+            } else {
+                for(var i=0; i<goesTo.length; i++){
+                    ($("." + goesTo[i]))[0].innerHTML = "";
+                }
+                var shifted = goesTo.shift();
+                nextMatchupPath = goesTo.join();
+                // Create button
+            ($("." + shifted))[0].innerHTML = "<a class=\"teamBtn btn btn-primary btn-sm\" data-matchuppath=\"" + nextMatchupPath + "\" name=\"team[]\">" + 
+            $(this)[0].innerText +
+            "</a><input type=\"hidden\" name=\"team[]\" value=\""
+            + $(this)[0].innerText + 
+            "\">";
+            } 
+        }));
+    });
+
+</script>

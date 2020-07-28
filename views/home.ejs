@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="/stylesheets/bracket.css">
+<%- include("./partials/header.ejs") %>
+
+<h1 class="text-center">2020 UCL Bracket Challenge</h1>
+<a href="/participants/new" class="btn btn-lg btn-info">Add new participant</a>
+<!-- SCOREBOARD -->
+<div class="ptable">
+    <table>
+        <tr class="col">
+            <th>POS</th>
+            <th>TEAM</th>
+            <th>PTS</th>
+        </tr>
+        <tr class="wpos">
+            <td></td>
+            <td>MASTER</td>
+            <td></td>
+        </tr>
+
+        <% for (i=0; i< predictions.length; i++){%>
+
+        <tr class="wpos" data-predictions='<%= predictions[i].predictions%>' data-name=<%= predictions[i].name %>>
+            <td><%= i+1 %></td>
+            <td><%= predictions[i].name %> </td>
+            <td><%= predictions[i].points %> </td>
+        </tr>
+        <% } %>
+    </table>
+</div>
+
+
+<h2 id="bracketTitle" class="text-center"></h2>
+<!-- INITIAL TEAMS FILLED OUT IN BRACKET -->
+<%- include("./partials/bracket.ejs") %>
+</body>
+
+<script>
+    // REMEMBER TO TRY AND PULL CONSTANT FROM HELPERS FILE
+    var correctBracket = [
+        "Real Madrid",
+        "Juventus",
+        "Barcelona",
+        "Bayern Munich",
+        "Juventus",
+        "Bayern Munich",
+        "Atletico Madrid",
+        "PSG",
+        "Bayern Munich",
+        "Atletico Madrid",
+        "Bayern Munich"
+    ];
+    // SELECT ALL PREIDCTION SLOTS
+    const predictionSpots = $('.prediction');
+
+
+    // SETS INITIAL MASTER BRACKET DISPLAY
+    var setCorrectBracket = function () {
+        for (let i = 0; i < predictionSpots.length; i++) {
+            if (correctBracket[i]) {
+                predictionSpots[i].innerText = correctBracket[i];
+                $("#bracketTitle")[0].innerText = "Correct Bracket";
+            }
+        }
+    }
+    setCorrectBracket();
+
+    $(document).ready(function () {
+        $(".wpos").on('click', (function () {
+            $('.prediction').removeClass("incorrect correct");
+            // CHECK IF CLICKING ON A NON PREDICTION WPOS
+            if (!$(this).data('predictions')) {
+                setCorrectBracket();
+            } else {
+                //CREATE ARRAY OF PREDICTIONS
+                var teams = $(this).data('predictions');
+                var teamsArr = teams.split(',');
+
+                for (let i = 0; i < predictionSpots.length; i++) {
+                    if (correctBracket[i] && teamsArr[i] == correctBracket[i]) {
+                        $('.prediction').eq(i).addClass("correct");
+                        predictionSpots[i].innerText = teamsArr[i];
+                    } else {
+                        predictionSpots[i].innerHTML = teamsArr[i];
+                        // DO NOT SET CORRECT OR INCORRECT IF WE HAVE NOT REACHED THAT STAGE YET
+                        if (correctBracket[i]) {
+                            $('.prediction').eq(i).addClass("incorrect");
+                        }
+                    }
+                }
+                // SET BRACKET TITLE
+                $("#bracketTitle")[0].innerText = $(this).data('name') + "'s Bracket";
+            }
+        }
+        ));
+    });
+</script>
+
+</html>
+<%- include("./partials/footer.ejs") %>

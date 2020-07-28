@@ -1,6 +1,6 @@
 var helpersObj = {};
 
-const correctBracket = [
+var correctBracket = [
     "Real Madrid",
     "Juventus",
     "Barcelona",
@@ -8,7 +8,10 @@ const correctBracket = [
     "Juventus",
     "Bayern Munich",
     "Atletico Madrid",
-    "PSG"
+    "PSG",
+    "Bayern Munich",
+    "Atletico Madrid",
+    "Bayern Munich"
 ];
 
 
