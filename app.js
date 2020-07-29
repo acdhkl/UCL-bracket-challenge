@@ -3,29 +3,12 @@ var express = require("express"),
     mongoose = require("mongoose"),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
+    passport = require("passport"),
+    LocalStrategy = require("passport-local"),
     Participant = require('./models/participant.js');
 
-// Participant.create(
-//     {
-//         name: "Sample1", 
-//         predictions: [
-//             "Manchester City",
-//             "Juventus",
-//             "Barcelona",
-//             "Bayern Munich",
-//             "Manchester City",
-//             "Barcelona",
-//             "Atletico Madrid",
-//             "PSG",
-//             "Barcelona",
-//             "Atletico Madrid",
-//             "Atletico Madrid"
-//         ],
-//         points: undefined
-//     }
-// )
-
 var helpers = require("./helpers.js");
+const participant = require("./models/participant.js");
 mongoose.connect("mongodb://localhost/bracket",
     {
         useNewUrlParser: true,
@@ -34,18 +17,36 @@ mongoose.connect("mongodb://localhost/bracket",
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 
+app.use(require("cookie-session")({
+    secret: "This is a secret shh",
+    resave: false,
+    saveUninitialized: false
+}));
+
+//PASSPORT CONFIG
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(Participant.authenticate()));
+passport.serializeUser(Participant.serializeUser());
+passport.deserializeUser(Participant.deserializeUser());
+
+
+
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-// ROOT ROUTE
 app.get("/", function (req, res) {
+    res.render("landing")
+})
+
+// Champions League route
+app.get("/UCL", function (req, res) {
     Participant.find({}, function (err, allParticipants) {
         if (err) {
             console.log(err);
         } else {
-            console.log(allParticipants);
-            res.render("home", {
+            res.render("ucl", {
                 predictions: helpers.calculatePoints(allParticipants).sort((a, b) => (a.points > b.points) ? -1 : 1),
                 correctBracket: helpers.correctBracket
             });
@@ -53,23 +54,70 @@ app.get("/", function (req, res) {
     });
 });
 
-// SHOW NEW PARTICIPANT PAGE
-app.get("/participants/new", function (req, res) {
-    res.render("participants/new");
+// Show register form
+app.get('/register', function (req, res) {
+    res.render('participants/register');
 });
 
-app.post("/participants/new", function (req, res) {
-    console.log(req.body)
-    var newParticipant = new Participant({
+// Handle sign up logic
+app.post('/register', function (req, res) {
+    var newParticipant = new participant({
         name: req.body.name,
-        points: 0,
-        predictions: req.body.team
+        username: req.body.username,
+        predictions:[],
+        points: 0
     });
-    Participant.create(newParticipant, function (err, newlyCreated) {
+    Participant.register(newParticipant, req.body.password, function (err, user) {
         if (err) {
-            console.log(err);
+            req.flash("error", err.message);
+            return res.redirect('register');
+        }
+        passport.authenticate('local')(req, res, function () {
+            res.redirect('/ucl');
+        });
+        
+    });
+});
+
+// Show login form
+app.get('/login', function (req, res) {
+    res.render('participants/login');
+});
+
+//handling login logic
+app.post(
+    '/login',
+    passport.authenticate('local', {
+        successRedirect: '/ucl',
+        failureRedirect: '/login'
+    }),
+    function (req, res) {
+    });
+
+//logout route
+app.get("/logout", function (req, res) {
+    req.logout();
+    res.redirect("/ucl");
+});
+
+// SHOW NEW BRACKET PAGE
+app.get("/UCL/new", helpers.isLoggedIn, function (req, res) {
+    res.render("participants/newUcl");
+});
+
+
+app.post("/participants/new", function (req, res) {
+    console.log("hi");
+    console.log(req.user._id);
+    Participant.findById(req.user._id, function(err, participant) {
+        if (err || req.body.team.length != 11) {
+            console.log("not full");
+            res.redirect("/UCL/new");
         } else {
-            res.redirect('/');
+        participant.name = req.user.name
+        participant.predictions = req.body.team
+        participant.save();
+        res.redirect('/ucl');
         }
     });
 });

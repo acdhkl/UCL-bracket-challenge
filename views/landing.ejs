@@ -1,0 +1,108 @@
+<%- include("./partials/header.ejs") %>
+<style>
+    .card-img.top {
+        width: 100%;
+        height: 100%;
+    }
+    a>div {
+        width: fit-content;
+    }
+    a {
+        display: inline;
+    }
+    :root {
+        --jumbotron-padding-y: 3rem;
+    }
+
+    .jumbotron {
+        padding-top: var(--jumbotron-padding-y);
+        padding-bottom: var(--jumbotron-padding-y);
+        margin-bottom: 0;
+        color: black;
+        background-color: white;
+    }
+
+    @media (min-width: 768px) {
+        .jumbotron {
+            padding-top: calc(var(--jumbotron-padding-y) * 2);
+            padding-bottom: calc(var(--jumbotron-padding-y) * 2);
+        }
+    }
+
+    .jumbotron p:last-child {
+        margin-bottom: 0;
+    }
+
+    .jumbotron-heading {
+        font-weight: 300;
+    }
+
+    .jumbotron .container {
+        max-width: 40rem;
+    }
+
+    .box-shadow {
+        box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    }
+</style>
+<main role="main">
+
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Welcome to Avinav's Bracket Challenges</h1>
+            <p class="lead text-muted">Good luck to all participants!</p>
+        </div>
+    </section>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            
+
+            <div class="row">
+                <a href="/ucl">
+                    <div class="col-md-6">
+                        <div class="card mb-4 box-shadow" style="width: 15rem; display: inline-block">
+                            <img class="card-img-top"
+                                src="https://i.pinimg.com/originals/4e/e8/e9/4ee8e9139110201b6e17ac878d1250fd.jpg"
+                                alt="Card image cap">
+                        </div>
+                    </div>
+                    
+                </a>
+            
+            
+                <a href="#">
+                    <div class="col-md-6">
+                        <div class="card mb-4 box-shadow" style="width: 15rem; display: inline-block">
+                            <img class="card-img-top"
+                                src="https://content.sportslogos.net/logos/1/486/full/4636__stanley_cup_playoffs-primary-2020.png"
+                                alt="Card image cap">
+                            <div class="card-body">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            
+                
+                <a  href="">
+
+                    <div class="col-md-6">
+                        <div class="card mb-4 box-shadow" style="width: 15rem; display: inline-block">
+                            <img class="card-img-top"
+                                src="https://upload.wikimedia.org/wikipedia/en/thumb/8/82/NBA_Finals_logo_%282018%29.svg/1200px-NBA_Finals_logo_%282018%29.svg.png"
+                                alt="Card image cap">
+                            <div class="card-body">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
+            
+            
+            </div>
+
+
+        </div>
+    </div>
+
+</main>

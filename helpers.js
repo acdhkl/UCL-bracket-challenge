@@ -44,5 +44,20 @@ helpersObj.calculatePoints = function (participants) {
     return participants;
 }
 
+
+// Function to check if user can create a bracket
+helpersObj.isLoggedIn = function (req, res, next) {
+    if (req.isAuthenticated()) {
+        if(req.user.predictions !=  undefined){
+            console.log("already made bracket")
+            return res.redirect('/ucl');
+        }
+        return next();
+    } else {
+        console.log("need to log in");
+        res.redirect("/login");
+    }
+};
+
 helpersObj.correctBracket = correctBracket;
 module.exports = helpersObj;
