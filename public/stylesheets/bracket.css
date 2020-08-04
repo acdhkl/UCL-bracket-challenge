@@ -157,7 +157,7 @@ html, body, .brackets {
 
     .ptable table{
         position: fixed;
-        top: 0px;
+        top: 20px;
         right: 10px;
         z-index: 1;
         margin: 30px auto;

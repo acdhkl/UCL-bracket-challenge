@@ -1,17 +1,6 @@
 var helpersObj = {};
 
 var correctBracket = [
-    "Real Madrid",
-    "Juventus",
-    "Barcelona",
-    "Bayern Munich",
-    "Juventus",
-    "Bayern Munich",
-    "Atletico Madrid",
-    "PSG",
-    "Bayern Munich",
-    "Atletico Madrid",
-    "Bayern Munich"
 ];
 
 
@@ -46,15 +35,16 @@ helpersObj.calculatePoints = function (participants) {
 
 
 // Function to check if user can create a bracket
-helpersObj.isLoggedIn = function (req, res, next) {
+helpersObj.canCreateBracket = function (req, res, next) {
     if (req.isAuthenticated()) {
-        if(req.user.predictions !=  undefined){
-            console.log("already made bracket")
+        if(req.user.predictions.length == 11){
+            console.log(req.user);
+            req.flash("error", "You already submitted your bracket!");
             return res.redirect('/ucl');
         }
         return next();
     } else {
-        console.log("need to log in");
+        req.flash("error", "Please login first");
         res.redirect("/login");
     }
 };

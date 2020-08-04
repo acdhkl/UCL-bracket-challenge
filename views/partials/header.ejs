@@ -21,3 +21,53 @@
 </head>
 
 <body>
+
+       <!-- NAVBAR -->
+    
+       <div class="row">
+        <div class="col-md-12">
+            <nav class="navbar navbar-expand-md navbar-light navbar-transparent">
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#authbuttons">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- Navbar links -->
+                <a class="navbar-brand" href="/">Avinav's Bracket Challenges</a>
+                <div class="collapse navbar-collapse" id="authbuttons">
+                    <ul class="navbar-nav ml-md-auto">
+                        <%if(!currentUser){%>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/login">Login </a>
+                        </li>
+                        <%	} else { %>
+                        <li class="nav-item active dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Signed in as <%= currentUser.username %>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/logout">Logout</a>
+
+                            </div>
+                        </li>
+                        <%}%>	
+                </ul>
+            </div>
+        </nav>
+        </div>
+    </div>
+        <!-- END OF NAVBAR -->
+
+    <br>
+    <div class="container">
+        <% if(error && error.length > 0){ %> 
+    <div class="alert alert-danger" role="alert">
+        <%= error  %>
+    </div>
+<% } %> 
+<% if(success && success.length > 0){ %> 
+    <div class="alert alert-success" role="alert">
+         <%= success  %>
+    </div>
+    <% } %> 
+    </div>
