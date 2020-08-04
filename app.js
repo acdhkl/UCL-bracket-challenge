@@ -11,10 +11,21 @@ var express = require("express"),
     helpers = require("./helpers.js");
     
 const participant = require("./models/participant.js");
-mongoose.connect("mongodb+srv://avinav:avinav@bracket.dizmo.mongodb.net/<dbname>?retryWrites=true&w=majority",
+mongoose.connect("",
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
+    });
+
+    mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/bracket',
+    {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+        useCreateIndex: true
+    }).then(() => {
+        console.log("Connected to DB!");
+    }).catch(err => {
+        console.log("Error:", err.message);
     });
 
 app.use(express.static(__dirname + "/public"));
